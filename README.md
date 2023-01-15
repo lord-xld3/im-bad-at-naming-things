@@ -1,5 +1,5 @@
 # Time Blox
-We're going to make a 'schedule' in hour blocks for each day. Although not required, this program is pretty useless if we can't plan more than a day in advance, or view past events. Additionally, being able to set start and end times for each event, and notifications once events start make this far more useful.
+We're going to make a 'schedule' in hour blocks for each day. Although not required, this program is pretty useless if we can't plan more than a day in advance, or view past events. Additionally, being able to set start and end times for each event, notifications once events start, and reocurring events make this program MUCH more useful.
 
 ## Sequence
 
@@ -8,21 +8,49 @@ INIT or when current day is changed
 First: Get the current day
 
 Second: Read local data to generate time blocks for current day
->we need an ordered list of 'blockHour','blockText'
->>this can be a 2D array, or two 1D arrays within the same for loop
+>Let's define our data:
 
->Option 1 (safer): data{dataArray[blockTuple[blockTime: number,blockText: string]]}
->>*Safer?*:Fixed length, data type validation, missing data from one type of data would not shift the entire for loop/array. *Harder*: requires TypeScript and 2D array
+>`var blockTuple:[blockStart: number, blockEnd: number, blockFreq: number, blockText: string]`
 
->Option 2 (simple): data{blockTime[int],blockText[string]}
->>*Scary?*: If data is not passed to correct array there is no error / data validation. Empty arrays/elements have a length of 0, so if 'blockText' element is empty it will be skipped, meaning blockTime no longer links to the correct blockText by [i]
-
->Let's be real, any sane person would rather get an error at compile time than finding a bug after hours of testing in runtime. That means we have to put more thought and work into our code, but hopefully less work debugging.
+>`var blockData:[blockTuple]`
 
 Third: Conditionally set classes on blocks by comparing them to current hour.
 
 Finally: Set a timer to notify user when next event starts
 
-### Get current day
+## Get current day
 
 Display something like "January 12th, 2023" at top of website
+
+
+## Setup TypeScript
+Install node.js first to use NPM, use Powershell for following commands:
+
+>`npm install -g typescript`
+>>^^^Required to compile to JavaScript
+
+>`(Admin Powershell) Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine`
+>>^^^Workaround for newer NPM versions (see https://github.com/npm/cli/issues/470)
+
+Now we can write our app in TypeScript and compile to JavaScript!
+
+## Import Dependencies for TypeScript
+
+>`npm install --save @types/jquery`
+>>^^^Required to use jquery in TypeScript
+
+>Where's dayjs? Well, its not easy to import into TypeScript without an @types library or converting .js into a module. Since we only need a handful of functions from dayjs, we'll just create the ones we need using TypeScript.
+
+
+
+## Utilizing TypeScript for superpowers
+
+The more we specify how our data should behave, the better TypeScript can save us from mistakes later. ![ts example](./assets/images/ts.png)
+>Defining our data as a tuple gives us some powers:
+>>1. A string cannot be assigned to a number and vice versa.
+>>2. The array is a fixed-length, assigning beyond the length of the array will give us an error.
+
+When finished, complile .ts to .js:
+
+>(inside the directory that contains the .ts file)
+>>`tsc script.ts`

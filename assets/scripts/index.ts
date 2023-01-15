@@ -1,7 +1,28 @@
+//#region Define data: types
+  var blockTuple:[blockStart:number, blockEnd:number, blockFreq:[], blockText:string]
+  var blockData:[]
+  var eventDate:Date
+  var selectedDate:Date
+  var eventMsec:number
+  var goFwd:boolean
+  
+//#endregion
+
+//#region Get date/time
+  var currentDateTime:Date = new Date()
+    // display for user, everything else will be in unix time for precise timers
+  var currentUnixTime:number = Date.now()
+    // Should work until ~ September 13, 27,5760 CE
+  selectedDate=currentDateTime 
+    // Init with current date
+//#endregion
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(function () {
+$(()=>{
+  console.log(currentDateTime)
+  console.log(currentUnixTime)
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -21,3 +42,23 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
 });
+
+// Return a date from milliseconds
+function msec2date(eventMsec:number):Date{
+  return eventDate = new Date(eventMsec)
+}
+
+// Go forward/back a day
+function changeDate(goFwd:boolean):void{
+  if (goFwd) selectedDate.setDate((selectedDate.getDate())+1)
+  else selectedDate.setDate((selectedDate.getDate())-1)
+  currentDateTime=selectedDate // ... update current date on page
+}
+
+// Check if event reoccurs today
+function enumBlocks(blockFreq:[],selectedDate:Date){
+  var currentWeekday:number = selectedDate.getDate() // Get weekday
+  if (currentWeekday in blockFreq) {
+    // event occurs today, get other data and show on page
+  }
+}
