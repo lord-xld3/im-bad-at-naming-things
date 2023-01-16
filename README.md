@@ -24,7 +24,7 @@ Display something like "January 12th, 2023" at top of website
 
 ## Utilizing TypeScript for superpowers
 
-The more we specify how our data should behave, the better TypeScript can save us from mistakes later. ![ts example](./assets/images/ts.png)
+The more we specify how our data should behave, the better TypeScript can save us from mistakes later. ![ts example](./build/images/ts-demo.png)
 >Defining our data as a tuple gives us some powers:
 >>1. A string cannot be assigned to a number and vice versa.
 >>2. The array is a fixed-length, assigning beyond the length of the array will give us an error.
