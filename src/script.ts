@@ -1,5 +1,5 @@
 //#region Define data: types
-  var blockTuple:[blockStart:number, blockEnd:number, blockFreq:[], blockText:string]
+  var blockTuple:[blockStart:number, blockEnd:number, blockFreq:number, blockText:string]
   var blockData:[]
   var eventDate:Date
   var selectedDate:Date

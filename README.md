@@ -10,7 +10,7 @@ First: Get the current day
 Second: Read local data to generate time blocks for current day
 >Let's define our data:
 
->`var blockTuple:[blockStart: number, blockEnd: number, blockFreq: number, blockText: string]`
+>`var blockTuple:[blockStart: number, blockEnd: number, blockFreq:[], blockText: string]`
 
 >`var blockData:[blockTuple]`
 
@@ -50,7 +50,8 @@ The more we specify how our data should behave, the better TypeScript can save u
 >>1. A string cannot be assigned to a number and vice versa.
 >>2. The array is a fixed-length, assigning beyond the length of the array will give us an error.
 
-When finished, complile .ts to .js:
+## Complile .ts to .js:
 
 >(inside the directory that contains the .ts file)
->>`tsc script.ts`
+>>`tsc --strict true --target ES6 --watch true index.ts`
+>>>This recompiles everytime index.ts is saved
