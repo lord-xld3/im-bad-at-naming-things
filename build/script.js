@@ -1,26 +1,14 @@
 "use strict";
-//#region Define data: types
-var blockTuple;
-var blockData;
-var eventDate;
-var selectedDate;
-var eventMsec;
-var goFwd;
-//#endregion
-//#region Get date/time
-var currentDateTime = new Date();
-// display for user, everything else will be in unix time for precise timers
-var currentUnixTime = Date.now();
-// Should work until ~ September 13, 27,5760 CE
-selectedDate = currentDateTime;
-// Init with current date
-//#endregion
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
 $(() => {
-    console.log(currentDateTime);
-    console.log(currentUnixTime);
+    var currentDateTime = new Date(); // display for user, everything else will be in unix time for precise timers
+    var currentUnixTime = Date.now(); // Should work until ~ September 13, 27,5760 CE
+    selectedDate = currentDateTime; // Init with current date
+    for (var i = 0; i < blockObj.length; i++) {
+        if (selectedDate in blockObj[i]) {
+            var displayBlocks = localStorage.getItem(blockObj[i]);
+        }
+    }
+    $("button.saveBtn").toArray();
     // TODO: Add a listener for click events on the save button. This code should
     // use the id in the containing time-block as a key to save the user input in
     // local storage. HINT: What does `this` reference in the click listener
@@ -41,21 +29,22 @@ $(() => {
     // TODO: Add code to display the current date in the header of the page.
 });
 // Return a date from milliseconds
-function msec2date(eventMsec) {
+function millisec2date(eventMsec) {
     return eventDate = new Date(eventMsec);
 }
 // Go forward/back a day
-function changeDate(goFwd) {
-    if (goFwd)
+function changeCurrentDate(goFwd) {
+    if (goFwdDate)
         selectedDate.setDate((selectedDate.getDate()) + 1);
     else
         selectedDate.setDate((selectedDate.getDate()) - 1);
-    currentDateTime = selectedDate; // ... update current date on page
-}
+    currentDateTime = selectedDate;
+} // ... update current date on page
 // Check if event reoccurs today
-function enumBlocks(blockFreq, selectedDate) {
-    var currentWeekday = selectedDate.getDate(); // Get weekday
-    if (currentWeekday in blockFreq) {
-        // event occurs today, get other data and show on page
-    }
+function checkEventRecurrence(blockFreq, selectedDate) {
+    let currentWeekday = selectedDate.getDay(); // Get weekday
+    if (currentWeekday in blockFreq)
+        return true;
+    else
+        return false;
 }
