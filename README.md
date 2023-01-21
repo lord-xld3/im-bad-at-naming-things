@@ -67,25 +67,31 @@ recurEvents{
 `Data Table` - shows raw data from local storage, useful for locating recurring events, has `CLEAR ALL` button
 
 ## Basic functions
-
+```
 initFunction(){
     // Get current date
     // Check for recurring events (call loadEvents(dateKey,eventID) if found)
     // Check for dateKey with current date (call loadEvents(dateKey) if found)
     call eventTimer()
 }
+```
 
+```
 eventTimer(){
     // Check if an event is coming up
     // Set timer until next event, alert on event start
     // After alert, call eventTimer()
 }
+```
 
+```
 saveEvent(){
     // Check if start time OR end time is > existing event start time AND < existing event end time (return "overlapping event" error)
 
 }
+```
 
+```
 loadEvents(){
     arguments[0] // dateKey
     arguments[1] // eventID
@@ -93,3 +99,4 @@ loadEvents(){
         // check recurring event to see if it recurs today
     }
 }
+```
