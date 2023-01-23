@@ -22,14 +22,19 @@ dateKey(DD-MM-YYYY){
     eventArray: [
 
 ----Each index in eventArray contains...----
-        (index)[ 
+        (index){ 
             eventStart: (unix milliseconds)
             eventEnd: (unix millliseconds)
             eventDuration: (eventEnd - eventStart)
             eventText: (string)
-            eventRecur: [onMonday, onTuesday,...]
-            eventTags: [] (optional custom tags)
-        ]
+            eventRecur: {
+                byWeekday:[Monday, Tuesday,...]
+                byWeekOfMonth:[0,1,2,3]
+                byNumberOfDays:[2,7,12,...]
+                byDateOfMonth:[2,7,12,...]
+            }
+            eventTags: ["Work","Sleep","School",...] (optional custom tags)
+        }
     ]
 }
 ```
@@ -39,7 +44,7 @@ dateKey(DD-MM-YYYY){
 ```
 recurEvents{
     recurArray:[
-        dateKey[], eventID[]
+        dateKey{eventIndex:[]} // Array of events that recur that were created on that date
     ]
 }
 ```
@@ -48,55 +53,124 @@ recurEvents{
 
 `var dateObject = new Date()`
 
-// Date can be incremented with `dateObject.setDate(1+(dateObject.getDate()))`
+// Date can be incremented with 
+
+`dateObject.setDate(1+(dateObject.getDate()))`
 
 // Then, update date/time
 
-`var currentDate = dateObject.toDateString()`
-
-`var currentTime = dateObject.getTime()`
+    var currentDate = dateObject.toDateString()
+    var currentWeekday = new Intl.DateTimeFormat("en-US", options).format(dateObject)
+    var currentTime = dateObject.getTime()
 
 ## Interactables
 
-`<=Prev` & `Next=>` to change current date
+`<=Prev` & `Next=>` - change current date
 
-`Create Event` - opens pop-up with options for creating event, has `SAVE` & `CANCEL` buttons
+`Create` - opens pop-up with the following options:
 
-`Clear Events` - clears events from current date
+    Time inputs:
+        Start - define hour/minute event starts
+        End - define hour/minute event ends
 
-`Data Table` - shows raw data from local storage, useful for locating recurring events, has `CLEAR ALL` button
+    String inputs:
+        Name - define event name
+        Tags - define custom tags separated by commas
+
+    Recurrence options
+        Checkbox inputs:
+            Weekdays: 
+                ✅ Monday
+                ✅ Tuesday
+                ...
+            Week number:
+                ✅ First
+                ✅ Second
+                ...
+        Number inputs:
+            Every x,y,... days:
+                🔳(2,5,...)
+            Every x,y,... day of month:
+                🔳(12,21,31,...)
+
+
+`Data` - shows raw data from local storage, useful for locating recurring events, has `Clear` button to clear selected cell(s)
+
+`Time` - shows total time per custom tag, has `Range` to select days to include
+
+
 
 ## Basic functions
 ```
-initFunction(){
+function initPage(){
     // Get current date
-    // Check for recurring events (call loadEvents(dateKey,eventID) if found)
-    // Check for dateKey with current date (call loadEvents(dateKey) if found)
-    call eventTimer()
+    // Check for recurring events 
+        if (recurEvents) { // Not empty
+            call checkRecur()
+        }
+    // Check for a dateKey with current date
+    if (currentDate in localStorage){
+        call checkToday()
+    }
+    return // Do nothing if no events can be displayed
 }
 ```
 
 ```
-eventTimer(){
+function eventTimer(){
     // Check if an event is coming up
     // Set timer until next event, alert on event start
-    // After alert, call eventTimer()
+    // After alert, clearInterval() and call eventTimer()
 }
 ```
 
 ```
-saveEvent(){
-    // Check if start time OR end time is > existing event start time AND < existing event end time (return "overlapping event" error)
-
+function saveEvent(){
+    // push input data to eventArray[] on current dateKey{}
 }
 ```
 
 ```
-loadEvents(){
-    arguments[0] // dateKey
-    arguments[1] // eventID
-    if (arguments[1]){ // recurring events exist
-        // check recurring event to see if it recurs today
+    // Check for recurring events, show on page if not overlapping AND it recurs today
+function checkRecur(){
+    for (i=0; i < recurEvents.keys(); i++){ // Iterate thru each dateKey{} in recurEvents{}
+        for (j=0; j < dateKey[i].keys(); j++){ // Iterate thru each eventArray[] in dateKey{}
+            for (k=0; k < eventArray[j].length; k++){ // Iterate thru each event in eventArray[]
+                 
+                // Check each recurrence option
+                
+                for (l=0; l < eventArray[j].eventRecur[k].byWeekOfMonth.length; l++){
+                    // if (currentDate in byWeekday[] && currentDate in byWeekOfMonth[l])
+                        // call loadEvent()
+                }
+
+                for (l=0; l < eventArray[k].eventRecur.byNumberOfDays.length; l++){
+                    // if (daySince % byNumberOfDays[l] == 0)
+                        // call loadEvent()
+                }
+
+                for (l=0; l < eventArray[k].eventRecur.byDateOfMonth.length; l++){
+                    // if (currentDate == byDateOfMonth[l])
+                        // call loadEvent()
+                }
+            }
+        }
     }
+}
+```
+
+```
+function checkToday(){
+    // Retrieve dateKey{} from localStorage
+    for (i=0; i < dateKey.eventArray.length; i++){
+        // call loadEvent()
+    }
+}
+```
+
+```
+function loadEvent(){
+    // determine where to insert event on page vertically (time-wise)
+    // determine overlapping events (insert side-by-side)
 }
 ```
