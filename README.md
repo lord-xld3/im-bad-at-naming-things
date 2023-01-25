@@ -219,5 +219,6 @@ function selectData { // Used to view/delete existing data
         // on "save" - replace dateKey/cell in localStorage (dateKey must be unique or unchanged)
             // reload / call selectData()
 }
+```
 
 Woosh! That looks like a challenge, let's do it.

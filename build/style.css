@@ -71,11 +71,24 @@ textarea {
 #headerButtons{
   display: flex;
   flex-flow: column;
-  margin-left: 1vw;
+  margin-left: 1%;
 }
 
 #headerButtons button{
-  margin-top: 0;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+button{
+  background-color: #5a004c;
+  color: white;
+  border-color: white;
+  border-style: ridge;
+  border-radius: 1px;
+}
+
+button:hover{
+  background-color: #ab0091;
 }
 
 #dateInfo{
