@@ -1,8 +1,6 @@
 # Time Blox
 We're going to make a 'schedule' for events each day. Although not required, this program is pretty useless if we can't plan more than a day in advance, or view past events. Additionally, being able to set start and end times for each event, event durations + custom tags (to compute total time per day) notifications once events start, and recurring events make this program MUCH more useful.
 
-This requires some fundamental changes to the requirements (sorry, not sorry!) so we can start events at more specific times, like 6:25PM. To do this, we won't use hourly "time blocks", and instead we will generate the time blocks as needed, using the event start/end time.
-
 ## Flow
 ![flow demo img](./build/images/BLOXDEMO.png)
 

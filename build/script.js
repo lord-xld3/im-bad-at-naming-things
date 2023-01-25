@@ -1,50 +1,26 @@
 "use strict";
+var currentDate = new Date(); // display for user, everything else will be in unix time for precise timers
+var currentDateKey = currentDate.toDateString();
+var currentHour = currentDate.getHours();
+$("#currentDay").append(currentDateKey);
 $(() => {
-    var currentDateTime = new Date(); // display for user, everything else will be in unix time for precise timers
-    var currentUnixTime = Date.now(); // Should work until ~ September 13, 27,5760 CE
-    selectedDate = currentDateTime; // Init with current date
-    for (var i = 0; i < blockObj.length; i++) {
-        if (selectedDate in blockObj[i]) {
-            var displayBlocks = localStorage.getItem(blockObj[i]);
-        }
+    for (var t = 0; t < 24; t++) {
+        // Determine blockColor
+        let blockColor = (t < currentHour) ? "past"
+            : (t == currentHour) ? "present"
+                : "future";
+        // Create & append block to page
+        let createBlock = $("<div id='" + t + "' class='row time-block'><div class='col-2 col-md-1 hour text-center py-3'>" + t + ":00</div><div class='col description " + blockColor + "'></div></div>");
+        $("#eventContainer").append(createBlock);
     }
-    $("button.saveBtn").toArray();
-    // TODO: Add a listener for click events on the save button. This code should
-    // use the id in the containing time-block as a key to save the user input in
-    // local storage. HINT: What does `this` reference in the click listener
-    // function? How can DOM traversal be used to get the "hour-x" id of the
-    // time-block containing the button that was clicked? How might the id be
-    // useful when saving the description in local storage?
-    //
-    // TODO: Add code to apply the past, present, or future class to each time
-    // block by comparing the id to the current hour. HINTS: How can the id
-    // attribute of each time-block be used to conditionally add or remove the
-    // past, present, and future classes? How can Day.js be used to get the
-    // current hour in 24-hour time?
-    //
-    // TODO: Add code to get any user input that was saved in localStorage and set
-    // the values of the corresponding textarea elements. HINT: How can the id
-    // attribute of each time-block be used to do this?
-    //
-    // TODO: Add code to display the current date in the header of the page.
+    if (localStorage.getItem("recurEvents") != null)
+        checkEventRecurrence();
+    if (localStorage.getItem(currentDateKey) != null)
+        checkEventToday();
+    return;
 });
-// Return a date from milliseconds
-function millisec2date(eventMsec) {
-    return eventDate = new Date(eventMsec);
-}
-// Go forward/back a day
-function changeCurrentDate(goFwd) {
-    if (goFwdDate)
-        selectedDate.setDate((selectedDate.getDate()) + 1);
-    else
-        selectedDate.setDate((selectedDate.getDate()) - 1);
-    currentDateTime = selectedDate;
-} // ... update current date on page
 // Check if event reoccurs today
-function checkEventRecurrence(blockFreq, selectedDate) {
-    let currentWeekday = selectedDate.getDay(); // Get weekday
-    if (currentWeekday in blockFreq)
-        return true;
-    else
-        return false;
+function checkEventRecurrence() {
+}
+function checkEventToday() {
 }
