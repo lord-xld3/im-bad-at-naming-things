@@ -1,10 +1,11 @@
 body {
   font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
+  font-size: 4vh;
   background-color: rgb(4, 38, 60);
   color: white;
   padding: 1%;
   margin: 1%;
+  line-height: 6vh;
 }
 
 header{
@@ -33,7 +34,6 @@ textarea {
 }
 
 .time-block {
-  line-height: 10px;
   border-radius: 0;
 }
 
@@ -160,7 +160,7 @@ button:hover{
 }
 
 .modalText{
-  font-size: 10px;
+  font-size: 4vh;
   color: black;
   padding: 0.5vh 0.5vw 0.5vh 0.5vw;
 }
@@ -169,7 +169,7 @@ button:hover{
   display: flex;
   flex-direction: row;
   flex-basis: 1 1 0;
-  padding: 0 0.5vw 0 0.5vw;
+  padding: 2vh 0.5vw 2vh 0.5vw;
   justify-content: center;
   align-items: center;
 }
@@ -178,7 +178,7 @@ button:hover{
   display: flex;
   flex-flow: row wrap;
   flex-basis: 1 1 0;
-  padding: 0 0.5vw 0 0.5vw;
+  padding: 2vh 0.5vw 2vh 0.5vw;
   justify-content: center;
   align-items: center;
 }
@@ -188,5 +188,18 @@ button:hover{
 }
 
 .smallText{
-  font-size: 6px;
+  font-size: 2vh;
+}
+
+.required{
+  color: red;
+}
+
+#repeatOptions{
+  display: none;
+}
+
+input[type=checkbox]{
+  height: 6vh;
+  width: 6vw;
 }

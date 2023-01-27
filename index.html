@@ -50,80 +50,93 @@
             <div class="modal-content">
               
               <span class="close">&times;</span>
-              <label class="modalText" for="eventStart">Event Start:</label>
+              <label class="modalText required" for="eventStart">Event Start:</label>
               <input type="time" id="eventStart"></input>
-              <label class="modalText" for="eventEnd">Event End:</label>
+              <label class="modalText required" for="eventEnd">Event End:</label>
               <input type="time" id="eventEnd"></input>
-              <label class="modalText" for="eventText">Event Text:</label>
+              <label class="modalText required" for="eventText">Event Text:</label>
               <input type="text" id="eventText"></input>
-              <label class="modalText" for="eventTags">Event Tags (x,y):</label>
+              <label class="modalText" for="eventTags">Tags x,y:</label>
               <input type="text" id="eventTags"></input>
               
-              <label class="modalText">Recurrence options:</label>
-              <div id="eventWeekNum" class="flex-row">
-                <label class="modalText">Week#:</label>
-                <div>
-                  <input type="checkbox" id="eventWeekFirst" name="eventWeekFirst"></input>
-                  <label class="modalText" for="eventWeekFirst">First</label>
+              <div class="flex-row">
+                <button type="button" id="showRepeat">Repeat?</button>
+              </div>
+              <div id="repeatOptions">
+                <div class="flex-row">
+                  <label class="modalText">Week#:</label>
+                  <div>
+                    <input type="checkbox" id="eventWeekFirst" name="eventWeekFirst" class="weekNum"></input>
+                    <label class="modalText" for="eventWeekFirst">First</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="eventWeekSecond" name="eventWeekSecond" class="weekNum"></input>
+                    <label class="modalText" for="eventWeekSecond">Second</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="eventWeekThird" name="eventWeekThird" class="weekNum"></input>
+                    <label class="modalText" for="eventWeekThird">Third</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="eventWeekFourth" name="eventWeekFourth" class="weekNum"></input>
+                    <label class="modalText" for="eventWeekFourth">Fourth</label>
+                  </div>
                 </div>
-                <div>
-                  <input type="checkbox" id="eventWeekSecond" name="eventWeekSecond"></input>
-                  <label class="modalText" for="eventWeekSecond">Second</label>
+
+                <div class="flex-row">
+                  <label class="modalText">Weekdays:</label>
+                  <div>
+                    <input type="checkbox" id="eventWeekSun" name="eventWeekSun" class="weekDay"></input>
+                    <label class="modalText" for="eventWeekSun">Sun</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="eventWeekMon" name="eventWeekMon" class="weekDay"></input>
+                    <label class="modalText" for="eventWeekMon">Mon</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="eventWeekTue" name="eventWeekTue" class="weekDay"></input>
+                    <label class="modalText" for="eventWeekTue">Tue</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="eventWeekWed" name="eventWeekWed" class="weekDay"></input>
+                    <label class="modalText" for="eventWeekWed">Wed</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="eventWeekThu" name="eventWeekThu" class="weekDay"></input>
+                    <label class="modalText" for="eventWeekThu">Thu</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="eventWeekFri" name="eventWeekFri" class="weekDay"></input>
+                    <label class="modalText" for="eventWeekFri">Fri</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="eventWeekSat" name="eventWeekSat" class="weekDay"></input>
+                    <label class="modalText" for="eventWeekSat">Sat</label>
+                  </div>
                 </div>
-                <div>
-                  <input type="checkbox" id="eventWeekThird" name="eventWeekThird"></input>
-                  <label class="modalText" for="eventWeekThird">Third</label>
+                
+                <div class="flex-row">
+                  <label class="modalText"># of Recurrences</label>
+                  <input type="number" class="smallText" id="eventNumRecurs" placeholder="12"></input>
                 </div>
-                <div>
-                  <input type="checkbox" id="eventWeekFourth" name="eventWeekFourth"></input>
-                  <label class="modalText" for="eventWeekFourth">Fourth</label>
+
+                <div class="flex-row">
+                  <label class="modalText">Repeat every...</label>
+                </div>
+
+                <div class="flex-row">
+                  <div>
+                    <label class="modalText">#days:</label>
+                    <input type="text" class="smallText" id="eventNumDays" placeholder="2,3,7"></input>
+                  </div>
+                  <div>
+                    <label class="modalText">#days of month:</label>
+                    <input type="text" class="smallText" id="eventNumDaysMonthly" placeholder="1,14,24"></input>
+                  </div>
                 </div>
               </div>
 
-              <div id="eventWeekDays" class="flex-row">
-                <label class="modalText">Weekdays:</label>
-                <div>
-                  <input type="checkbox" id="eventWeekSun" name="eventWeekSun"></input>
-                  <label class="modalText" for="eventWeekSun">Sun</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="eventWeekMon" name="eventWeekMon"></input>
-                  <label class="modalText" for="eventWeekMon">Mon</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="eventWeekTue" name="eventWeekTue"></input>
-                  <label class="modalText" for="eventWeekTue">Tue</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="eventWeekWed" name="eventWeekWed"></input>
-                  <label class="modalText" for="eventWeekWed">Wed</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="eventWeekThu" name="eventWeekThu"></input>
-                  <label class="modalText" for="eventWeekThu">Thu</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="eventWeekFri" name="eventWeekFri"></input>
-                  <label class="modalText" for="eventWeekFri">Fri</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="eventWeekSat" name="eventWeekSat"></input>
-                  <label class="modalText" for="eventWeekSat">Sat</label>
-                </div>
-              </div>
-
-              <div id="eventNums" class="flex-row">
-                <div>
-                  <label class="modalText">Every x,y... days:</label>
-                  <input type="text" class="smallText" id="eventNumDays"></input>
-                </div>
-                <div>
-                  <label class="modalText">Every x,y... day of month:</label>
-                  <input type="text" class="smallText" id="eventNumDaysMonthly"></input>
-                </div>
-              </div>
-
-              <button type="button">Save</button>
+              <button type="button" id="saveBtn">Save</button>
             </div>
           </div>
         <button type="button" id="editEvent">Edit</button>
