@@ -31,13 +31,72 @@ $("#saveBtn").on("click", () => {
             alert("When selecting a day, you must also select a week");
         }
         else {
-            let currentDateObj = localStorage.getItem(currentDateKey);
-            if (currentDateObj == null) {
-                currentDateObj = { eventArray: [] };
+            let startArr = $("#eventStart").val().split(":");
+            let startDate = new Date();
+            let endDate = new Date();
+            let endArr = $("#eventEnd").val().split(":");
+            startDate.setHours(parseInt(startArr[0]), parseInt(startArr[1]));
+            endDate.setHours(parseInt(endArr[0]), parseInt(endArr[1]));
+            if (startDate >= endDate)
+                return alert("Start time cannot be greater than or equal to End time");
+            let eventWeekArr = [];
+            if ($("#eventWeekFirst").is(":checked"))
+                eventWeekArr.push(0);
+            if ($("#eventWeekSecond").is(":checked"))
+                eventWeekArr.push(1);
+            if ($("#eventWeekThird").is(":checked"))
+                eventWeekArr.push(2);
+            if ($("#eventWeekFourth").is(":checked"))
+                eventWeekArr.push(3);
+            let eventDayArr = [];
+            if ($("#eventWeekSun").is(":checked"))
+                eventDayArr.push(0);
+            if ($("#eventWeekMon").is(":checked"))
+                eventDayArr.push(1);
+            if ($("#eventWeekTue").is(":checked"))
+                eventDayArr.push(2);
+            if ($("#eventWeekWed").is(":checked"))
+                eventDayArr.push(3);
+            if ($("#eventWeekThu").is(":checked"))
+                eventDayArr.push(4);
+            if ($("#eventWeekFri").is(":checked"))
+                eventDayArr.push(5);
+            if ($("#eventWeekSat").is(":checked"))
+                eventDayArr.push(6);
+            if ($("#eventTags").val() == "")
+                var eventTagsData = [];
+            else
+                var eventTagsData = $("#eventTags").val().split(",");
+            if ($("#eventNumRecurs").val() == "")
+                var eventRecurNumData = [];
+            else
+                var eventRecurNumData = $("#eventTags").val().split(",");
+            if ($("#eventNumDays").val() == "")
+                var eventRecurDaysData = [];
+            else
+                var eventRecurDaysData = $("#eventNumDays").val().split(",");
+            if ($("#eventNumDaysMonthly").val() == "")
+                var eventRecurWeeksData = [];
+            else
+                var eventRecurWeeksData = $("#eventNumDaysMonthly").val().split(",");
+            let currentEventArr = localStorage.getItem(currentDateKey);
+            currentEventArr = JSON.parse(currentEventArr);
+            if (currentEventArr == null) {
+                currentEventArr = [];
             }
             let event = {
-                eventStart: ($("#eventStart"))
+                eventStart: (startDate.getTime()),
+                eventEnd: (endDate.getTime()),
+                eventText: ($("#eventText").val()),
+                eventTags: eventTagsData,
+                eventWeeks: eventWeekArr,
+                eventDays: eventDayArr,
+                eventRecurNum: eventRecurNumData,
+                eventRecurDays: eventRecurDaysData,
+                eventRecurWeeks: eventRecurWeeksData
             };
+            currentEventArr.push(event);
+            localStorage.setItem(currentDateKey, (JSON.stringify(currentEventArr)));
         }
     }
 });
