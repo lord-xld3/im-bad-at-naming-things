@@ -29,26 +29,26 @@ $("#saveBtn").on("click",()=>{
 
 	else{ // Parse input data, still handle invalid input
 
-		let weekArr = $(".weekNum").toArray()
-		let dayArr = $(".weekDay").toArray()
+		var weekArr = $(".weekNum").toArray()
+		var dayArr = $(".weekDay").toArray()
 
 	//#region Brain-pain zone!!!
 		
 		// If no week is checked, return "true"
-		if (weekArr.every((e)=>e.checked==false) 
+		if (weekArr.every((e:any)=>e.checked==false) 
 		
 		// If any day is checked, return "true"
-		&& dayArr.some((e)=>e.checked==true)){
+		&& dayArr.some((e:any)=>e.checked==true)){
 			
 			// No week is checked & some day is checked
 			alert("When selecting a week, you must also select a day")
 		}
 
 		// If some week is checked, return "true"
-		else if (weekArr.some((e)=>e.checked==true)
+		else if (weekArr.some((e:any)=>e.checked==true)
 
 		// If every day is unchecked, return "true"
-		&& dayArr.every((e)=>e.checked==false)){
+		&& dayArr.every((e:any)=>e.checked==false)){
 
 			// Some day is checked & no week is checked
 			alert("When selecting a day, you must also select a week")
@@ -65,34 +65,17 @@ $("#saveBtn").on("click",()=>{
 
 			if(startDate >= endDate) return alert("Start time cannot be greater than or equal to End time")
 			
-			let eventWeekArr = []
-			if ($("#eventWeekFirst").is(":checked")) eventWeekArr.push(0)
-			if ($("#eventWeekSecond").is(":checked")) eventWeekArr.push(1)
-			if ($("#eventWeekThird").is(":checked")) eventWeekArr.push(2)
-			if ($("#eventWeekFourth").is(":checked")) eventWeekArr.push(3)
+			var eventWeekArr:any = []
+			for (let i=0; i < weekArr.length; i++){
+				isThisChecked(weekArr[i],eventWeekArr,i)
+			}
 
-			let eventDayArr = []
-			if ($("#eventWeekSun").is(":checked")) eventDayArr.push(0)
-			if ($("#eventWeekMon").is(":checked")) eventDayArr.push(1)
-			if ($("#eventWeekTue").is(":checked")) eventDayArr.push(2)
-			if ($("#eventWeekWed").is(":checked")) eventDayArr.push(3)
-			if ($("#eventWeekThu").is(":checked")) eventDayArr.push(4)
-			if ($("#eventWeekFri").is(":checked")) eventDayArr.push(5)
-			if ($("#eventWeekSat").is(":checked")) eventDayArr.push(6)
-
-			if ($("#eventTags").val()=="") var eventTagsData = []
-			else var eventTagsData = $("#eventTags").val().split(",")
+			var eventDayArr:any = []
+			for (let i=0; i < dayArr.length; i++){
+				isThisChecked(dayArr[i],eventDayArr,i)
+			}
 			
-			if ($("#eventNumRecurs").val()=="") var eventRecurNumData = []
-			else var eventRecurNumData = $("#eventTags").val().split(",")
-
-			if ($("#eventNumDays").val()=="") var eventRecurDaysData = []
-			else var eventRecurDaysData = $("#eventNumDays").val().split(",")
-
-			if ($("#eventNumDaysMonthly").val()=="") var eventRecurWeeksData = []
-			else var eventRecurWeeksData = $("#eventNumDaysMonthly").val().split(",")
-
-			let currentEventArr = localStorage.getItem(currentDateKey)
+			let currentEventArr:any = localStorage.getItem(currentDateKey)
 			currentEventArr = JSON.parse(currentEventArr)
 			if (currentEventArr==null){
 				currentEventArr = []
@@ -101,32 +84,31 @@ $("#saveBtn").on("click",()=>{
 				eventStart: (startDate.getTime()),
 				eventEnd: (endDate.getTime()),
 				eventText: ($("#eventText").val()),
-				eventTags: eventTagsData,
+				eventTags: emptyIfBlank("#eventTags"),
 				eventWeeks: eventWeekArr,
 				eventDays: eventDayArr,
-				eventRecurNum: eventRecurNumData,
-				eventRecurDays: eventRecurDaysData,
-				eventRecurWeeks: eventRecurWeeksData
+				eventRecurNum: emptyIfBlank("#eventNumRecurs"),
+				eventRecurDays: emptyIfBlank("#eventNumDays"),
+				eventRecurWeeks: emptyIfBlank("#eventNumDaysMonthly")
 			}
 			currentEventArr.push(event)
 			localStorage.setItem(currentDateKey,(JSON.stringify(currentEventArr)))
+			closeModal()
 		}
 	}
 })
 
 // Close any modal
-$(".close").on("click",()=>{
-	$(".close").parent().parent().css("display", "none")
-})
+$(".close").on("click",closeModal)
 
 $(function initPage(){
-	for (let t=0; t < 24; t++){
+	for (let t:any=0; t < 24; t++){
 		// Determine blockColor
 		let blockColor = (t < currentHour)?"past"
 		:(t == currentHour)?"present"
 		:"future"
 		
-		if (t < 10) t = "0" + t // use 00:00 instead of 0:00
+		if (t < 10) t= "0" + t // use 00:00 instead of 0:00
 		// Create & append block to page
 		let createBlock = $("<div id='" + t + "' class='row time-block'><div class='col-2 hour text-center py-3'>" + t + ":00</div><div class='col description " + blockColor + "'></div></div>")
 		$("#eventContainer").append(createBlock)
@@ -142,6 +124,20 @@ $(function initPage(){
 	return
 })
 //#endregion
+
+function isThisChecked(e:any,a:any,i:number){
+	if ($(e).is(":checked")) a.push(i)
+}
+
+function emptyIfBlank(e:any){
+	if ($(e).val()=="") return []
+	else return $(e).val().split(",")
+}
+
+function closeModal(){
+	$(".close").parent().parent().css("display", "none")
+}
+
 function checkEventRecurrence(recurEvents){
 
 }

@@ -20,8 +20,8 @@ $("#saveBtn").on("click", () => {
         return alert("Please fill out required fields");
     }
     else {
-        let weekArr = $(".weekNum").toArray();
-        let dayArr = $(".weekDay").toArray();
+        var weekArr = $(".weekNum").toArray();
+        var dayArr = $(".weekDay").toArray();
         if (weekArr.every((e) => e.checked == false)
             && dayArr.some((e) => e.checked == true)) {
             alert("When selecting a week, you must also select a day");
@@ -39,46 +39,14 @@ $("#saveBtn").on("click", () => {
             endDate.setHours(parseInt(endArr[0]), parseInt(endArr[1]));
             if (startDate >= endDate)
                 return alert("Start time cannot be greater than or equal to End time");
-            let eventWeekArr = [];
-            if ($("#eventWeekFirst").is(":checked"))
-                eventWeekArr.push(0);
-            if ($("#eventWeekSecond").is(":checked"))
-                eventWeekArr.push(1);
-            if ($("#eventWeekThird").is(":checked"))
-                eventWeekArr.push(2);
-            if ($("#eventWeekFourth").is(":checked"))
-                eventWeekArr.push(3);
-            let eventDayArr = [];
-            if ($("#eventWeekSun").is(":checked"))
-                eventDayArr.push(0);
-            if ($("#eventWeekMon").is(":checked"))
-                eventDayArr.push(1);
-            if ($("#eventWeekTue").is(":checked"))
-                eventDayArr.push(2);
-            if ($("#eventWeekWed").is(":checked"))
-                eventDayArr.push(3);
-            if ($("#eventWeekThu").is(":checked"))
-                eventDayArr.push(4);
-            if ($("#eventWeekFri").is(":checked"))
-                eventDayArr.push(5);
-            if ($("#eventWeekSat").is(":checked"))
-                eventDayArr.push(6);
-            if ($("#eventTags").val() == "")
-                var eventTagsData = [];
-            else
-                var eventTagsData = $("#eventTags").val().split(",");
-            if ($("#eventNumRecurs").val() == "")
-                var eventRecurNumData = [];
-            else
-                var eventRecurNumData = $("#eventTags").val().split(",");
-            if ($("#eventNumDays").val() == "")
-                var eventRecurDaysData = [];
-            else
-                var eventRecurDaysData = $("#eventNumDays").val().split(",");
-            if ($("#eventNumDaysMonthly").val() == "")
-                var eventRecurWeeksData = [];
-            else
-                var eventRecurWeeksData = $("#eventNumDaysMonthly").val().split(",");
+            var eventWeekArr = [];
+            for (let i = 0; i < weekArr.length; i++) {
+                isThisChecked(weekArr[i], eventWeekArr, i);
+            }
+            var eventDayArr = [];
+            for (let i = 0; i < dayArr.length; i++) {
+                isThisChecked(dayArr[i], eventDayArr, i);
+            }
             let currentEventArr = localStorage.getItem(currentDateKey);
             currentEventArr = JSON.parse(currentEventArr);
             if (currentEventArr == null) {
@@ -88,21 +56,20 @@ $("#saveBtn").on("click", () => {
                 eventStart: (startDate.getTime()),
                 eventEnd: (endDate.getTime()),
                 eventText: ($("#eventText").val()),
-                eventTags: eventTagsData,
+                eventTags: emptyIfBlank("#eventTags"),
                 eventWeeks: eventWeekArr,
                 eventDays: eventDayArr,
-                eventRecurNum: eventRecurNumData,
-                eventRecurDays: eventRecurDaysData,
-                eventRecurWeeks: eventRecurWeeksData
+                eventRecurNum: emptyIfBlank("#eventNumRecurs"),
+                eventRecurDays: emptyIfBlank("#eventNumDays"),
+                eventRecurWeeks: emptyIfBlank("#eventNumDaysMonthly")
             };
             currentEventArr.push(event);
             localStorage.setItem(currentDateKey, (JSON.stringify(currentEventArr)));
+            closeModal();
         }
     }
 });
-$(".close").on("click", () => {
-    $(".close").parent().parent().css("display", "none");
-});
+$(".close").on("click", closeModal);
 $(function initPage() {
     for (let t = 0; t < 24; t++) {
         let blockColor = (t < currentHour) ? "past"
@@ -122,6 +89,19 @@ $(function initPage() {
     }
     return;
 });
+function isThisChecked(e, a, i) {
+    if ($(e).is(":checked"))
+        a.push(i);
+}
+function emptyIfBlank(e) {
+    if ($(e).val() == "")
+        return [];
+    else
+        return $(e).val().split(",");
+}
+function closeModal() {
+    $(".close").parent().parent().css("display", "none");
+}
 function checkEventRecurrence(recurEvents) {
 }
 function checkEventToday(currentDateKey) {
