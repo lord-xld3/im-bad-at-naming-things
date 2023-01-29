@@ -31,8 +31,6 @@ $("#saveBtn").on("click",()=>{
 
 		var weekArr = $(".weekNum").toArray()
 		var dayArr = $(".weekDay").toArray()
-
-	//#region Brain-pain zone!!!
 		
 		// If no week is checked, return "true"
 		if (weekArr.every((e:any)=>e.checked==false) 
@@ -41,7 +39,7 @@ $("#saveBtn").on("click",()=>{
 		&& dayArr.some((e:any)=>e.checked==true)){
 			
 			// No week is checked & some day is checked
-			alert("When selecting a week, you must also select a day")
+			return alert("When selecting a week, you must also select a day")
 		}
 
 		// If some week is checked, return "true"
@@ -51,11 +49,13 @@ $("#saveBtn").on("click",()=>{
 		&& dayArr.every((e:any)=>e.checked==false)){
 
 			// Some day is checked & no week is checked
-			alert("When selecting a day, you must also select a week")
+			return alert("When selecting a day, you must also select a week")
 		}
-	//#endregion
 
 		else {
+			let eventNumRecurs = $("#eventNumRecurs").val()
+			let eventDayRecurs = emptyNumIfBlank("#eventNumDays")
+			let eventWeekRecurs = emptyNumIfBlank("#eventNumDaysMonthly")
 			let startArr = $("#eventStart").val().split(":")
 			let startDate = new Date()
 			let endDate = new Date()
@@ -84,12 +84,12 @@ $("#saveBtn").on("click",()=>{
 				eventStart: (startDate.getTime()),
 				eventEnd: (endDate.getTime()),
 				eventText: ($("#eventText").val()),
-				eventTags: emptyIfBlank("#eventTags"),
+				eventTags: emptyTagIfBlank("#eventTags"),
 				eventWeeks: eventWeekArr,
 				eventDays: eventDayArr,
-				eventRecurNum: emptyIfBlank("#eventNumRecurs"),
-				eventRecurDays: emptyIfBlank("#eventNumDays"),
-				eventRecurWeeks: emptyIfBlank("#eventNumDaysMonthly")
+				eventNumRecurs: (eventNumRecurs=="")?[]:eventNumRecurs,
+				eventRecurDays: eventDayRecurs,
+				eventRecurWeeks: eventWeekRecurs
 			}
 			currentEventArr.push(event)
 			localStorage.setItem(currentDateKey,(JSON.stringify(currentEventArr)))
@@ -129,7 +129,23 @@ function isThisChecked(e:any,a:any,i:number){
 	if ($(e).is(":checked")) a.push(i)
 }
 
-function emptyIfBlank(e:any){
+function emptyNumIfBlank(e:any){
+	let v:any = $(e).val()
+	if (v=="") return []
+	else {
+		let a = v.split(",")
+		a.forEach((e:string,i:number) => {
+			a[i] = +e
+			if (isNaN(a[i])) {
+				console.warn(e + " is not a number\nit will be omitted and script will continue")
+				a.splice(i,1)
+			}
+		})
+		return a
+	}
+}
+
+function emptyTagIfBlank(e:any){
 	if ($(e).val()=="") return []
 	else return $(e).val().split(",")
 }

@@ -24,13 +24,16 @@ $("#saveBtn").on("click", () => {
         var dayArr = $(".weekDay").toArray();
         if (weekArr.every((e) => e.checked == false)
             && dayArr.some((e) => e.checked == true)) {
-            alert("When selecting a week, you must also select a day");
+            return alert("When selecting a week, you must also select a day");
         }
         else if (weekArr.some((e) => e.checked == true)
             && dayArr.every((e) => e.checked == false)) {
-            alert("When selecting a day, you must also select a week");
+            return alert("When selecting a day, you must also select a week");
         }
         else {
+            let eventNumRecurs = $("#eventNumRecurs").val();
+            let eventDayRecurs = emptyNumIfBlank("#eventNumDays");
+            let eventWeekRecurs = emptyNumIfBlank("#eventNumDaysMonthly");
             let startArr = $("#eventStart").val().split(":");
             let startDate = new Date();
             let endDate = new Date();
@@ -56,12 +59,12 @@ $("#saveBtn").on("click", () => {
                 eventStart: (startDate.getTime()),
                 eventEnd: (endDate.getTime()),
                 eventText: ($("#eventText").val()),
-                eventTags: emptyIfBlank("#eventTags"),
+                eventTags: emptyTagIfBlank("#eventTags"),
                 eventWeeks: eventWeekArr,
                 eventDays: eventDayArr,
-                eventRecurNum: emptyIfBlank("#eventNumRecurs"),
-                eventRecurDays: emptyIfBlank("#eventNumDays"),
-                eventRecurWeeks: emptyIfBlank("#eventNumDaysMonthly")
+                eventNumRecurs: (eventNumRecurs == "") ? [] : eventNumRecurs,
+                eventRecurDays: eventDayRecurs,
+                eventRecurWeeks: eventWeekRecurs
             };
             currentEventArr.push(event);
             localStorage.setItem(currentDateKey, (JSON.stringify(currentEventArr)));
@@ -93,7 +96,23 @@ function isThisChecked(e, a, i) {
     if ($(e).is(":checked"))
         a.push(i);
 }
-function emptyIfBlank(e) {
+function emptyNumIfBlank(e) {
+    let v = $(e).val();
+    if (v == "")
+        return [];
+    else {
+        let a = v.split(",");
+        a.forEach((e, i) => {
+            a[i] = +e;
+            if (isNaN(a[i])) {
+                console.warn(e + " is not a number\nit will be omitted and script will continue");
+                a.splice(i, 1);
+            }
+        });
+        return a;
+    }
+}
+function emptyTagIfBlank(e) {
     if ($(e).val() == "")
         return [];
     else
