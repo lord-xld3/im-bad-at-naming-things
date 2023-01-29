@@ -31,9 +31,13 @@ $("#saveBtn").on("click", () => {
             return alert("When selecting a day, you must also select a week");
         }
         else {
-            let eventNumRecurs = $("#eventNumRecurs").val();
+            let eventNumRecurs = +$("#eventNumRecurs").val();
+            if (isNaN(eventNumRecurs)) {
+                console.warn($("#eventNumRecurs").val() + " is not a number\nit will be treated as empty and script will continue");
+                eventNumRecurs = 0;
+            }
             let eventDayRecurs = emptyNumIfBlank("#eventNumDays");
-            let eventWeekRecurs = emptyNumIfBlank("#eventNumDaysMonthly");
+            let eventRecurDatesOfMonth = emptyNumIfBlank("#eventNumDaysMonthly");
             let startArr = $("#eventStart").val().split(":");
             let startDate = new Date();
             let endDate = new Date();
@@ -62,9 +66,9 @@ $("#saveBtn").on("click", () => {
                 eventTags: emptyTagIfBlank("#eventTags"),
                 eventWeeks: eventWeekArr,
                 eventDays: eventDayArr,
-                eventNumRecurs: (eventNumRecurs == "") ? [] : eventNumRecurs,
+                eventNumRecurs: (eventNumRecurs == "") ? 0 : eventNumRecurs,
                 eventRecurDays: eventDayRecurs,
-                eventRecurWeeks: eventWeekRecurs
+                eventRecurDates: eventRecurDatesOfMonth
             };
             currentEventArr.push(event);
             localStorage.setItem(currentDateKey, (JSON.stringify(currentEventArr)));
@@ -102,13 +106,21 @@ function emptyNumIfBlank(e) {
         return [];
     else {
         let a = v.split(",");
-        a.forEach((e, i) => {
-            a[i] = +e;
-            if (isNaN(a[i])) {
-                console.warn(e + " is not a number\nit will be omitted and script will continue");
+        for (let i = 0; i < a.length; i++) {
+            if (isNaN(+a[i])) {
+                console.warn(a[i] + " is not a number\nit will be omitted and script will continue");
                 a.splice(i, 1);
+                i--;
             }
-        });
+            else if ((+a[i] < 1 && e == "#eventNumDays")
+                || ((+a[i] > 30) || (+a[i] < 0) && e == "#eventNumDaysMonthly")) {
+                console.warn(a[i] + " is an invalid day OR day of month\nit will be omitted and script will continue");
+                a.splice(i, 1);
+                i--;
+            }
+            else
+                a[i] = +a[i];
+        }
         return a;
     }
 }
