@@ -3,12 +3,8 @@ body {
   font-size: 1.5vmax;
   background-color: rgb(4, 38, 60);
   color: white;
-  padding: 1%;
-  margin: 1%;
-}
-
-header{
-  margin: 1%;
+  padding: 0.2vmax;
+  margin: 1vmax;
 }
 
 h1{
@@ -64,20 +60,16 @@ h2{
 #headerButtons{
   display: flex;
   flex-flow: column;
-  margin-left: 1%;
 }
 
 #headerButtons button{
-  margin-top: 2%;
-  margin-bottom: 2%;
+  margin: 0.2vmax;
 }
 
 button{
   background-color: #5a004c;
   color: white;
-  border-color: white;
-  border-style: ridge;
-  border-radius: 1px;
+  border: 0.2vmax ridge white;
 }
 
 button:hover{
@@ -199,12 +191,12 @@ input[type=checkbox]{
 
 .eventOverlay{
   position: absolute;
-  left: 16.67%;
-  width: 83.33%;
+  left: 18%;
+  width: 80.2%;
   height: 216vh;
   z-index: 1;
   box-sizing: border-box;
-  background-color: #06aed5;
+  background-color: #ac610c;
   display: flex;
   flex: 1 1 0;
   flex-direction: row;
@@ -212,8 +204,8 @@ input[type=checkbox]{
 
 .eventText{
   display: flex;
-  border: 1vh ridge rebeccapurple;
-  background-color:darkslategray;
+  border: 1vh ridge rgb(27, 88, 255);
+  background-color:rgb(0, 116, 116);
   margin-top: 9vh;
   padding: 1vmax;
   height: 36vh;
