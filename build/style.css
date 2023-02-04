@@ -1,11 +1,10 @@
 body {
   font-family: 'Open Sans', sans-serif;
-  font-size: 4vh;
+  font-size: 1.5vmax;
   background-color: rgb(4, 38, 60);
   color: white;
   padding: 1%;
   margin: 1%;
-  line-height: 6vh;
 }
 
 header{
@@ -13,11 +12,11 @@ header{
 }
 
 h1{
-  font-size: 32px;
+  font-size: 3vmax;
 }
 
 h2,p{
-  font-size: 16px;
+  font-size: 1.5vmax;
 }
 
 textarea {
@@ -35,15 +34,18 @@ textarea {
 
 .time-block {
   border-radius: 0;
+  line-height: 0;
+  height: 9vh;
 }
 
 .row {
-  border-top: 1px solid white;
+  border-top: 1vh solid white;
 }
 
 .hour {
   background-color: #290101;
-  padding: 1%;
+  font-size: 1.5vmax;
+  padding-top: 4vh;
 }
 
 .past {
@@ -99,9 +101,9 @@ button:hover{
   margin: auto;
 }
 
-#dateInfo p{
+#dateInfo h2{
   margin: auto;
-  padding: 1vw;
+  padding: 1vmax;
 }
 
 .saveBtn {
@@ -202,4 +204,18 @@ button:hover{
 input[type=checkbox]{
   height: 6vh;
   width: 6vw;
+}
+
+.eventOverlay{
+  position: absolute;
+  top: 0vh;
+  left: 16.67%;
+  height: 36vh;
+  z-index: 1;
+  box-sizing: border-box;
+  background-color: #06aed5;
+}
+
+.eventContainer{
+  position: relative;
 }
