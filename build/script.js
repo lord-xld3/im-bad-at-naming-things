@@ -31,6 +31,15 @@ $("#saveBtn").on("click", () => {
             return alert("When selecting a day, you must also select a week");
         }
         else {
+            let startDate = new Date();
+            let endDate = new Date();
+            let startArr = $("#eventStart").val().split(":");
+            let endArr = $("#eventEnd").val().split(":");
+            startDate.setHours(parseInt(startArr[0]), parseInt(startArr[1]));
+            endDate.setHours(parseInt(endArr[0]), parseInt(endArr[1]));
+            if (startDate >= endDate) {
+                return alert("Start time cannot be greater than or equal to End time");
+            }
             let eventNumRecurs = +$("#eventNumRecurs").val();
             if (isNaN(eventNumRecurs)) {
                 console.warn($("#eventNumRecurs").val() + " is not a number\nit will be treated as empty and script will continue");
@@ -38,14 +47,6 @@ $("#saveBtn").on("click", () => {
             }
             let eventDayRecurs = emptyNumIfBlank("#eventNumDays");
             let eventRecurDatesOfMonth = emptyNumIfBlank("#eventNumDaysMonthly");
-            let startArr = $("#eventStart").val().split(":");
-            let startDate = new Date();
-            let endDate = new Date();
-            let endArr = $("#eventEnd").val().split(":");
-            startDate.setHours(parseInt(startArr[0]), parseInt(startArr[1]));
-            endDate.setHours(parseInt(endArr[0]), parseInt(endArr[1]));
-            if (startDate >= endDate)
-                return alert("Start time cannot be greater than or equal to End time");
             var eventWeekArr = [];
             for (let i = 0; i < weekArr.length; i++) {
                 isThisChecked(weekArr[i], eventWeekArr, i);
@@ -73,11 +74,15 @@ $("#saveBtn").on("click", () => {
             currentEventArr.push(event);
             localStorage.setItem(currentDateKey, (JSON.stringify(currentEventArr)));
             closeModal();
+            initPage();
         }
     }
 });
 $(".close").on("click", closeModal);
-$(function initPage() {
+initPage();
+function initPage() {
+    $(".row").remove();
+    $(".eventText").remove();
     for (let t = 0; t < 24; t++) {
         let blockColor = (t < currentHour) ? "past"
             : (t == currentHour) ? "present"
@@ -91,14 +96,16 @@ $(function initPage() {
     if (recurEvents != null) {
         checkEventRecurrence(recurEvents);
     }
-    if (localStorage.getItem(currentDateKey) != null) {
-        checkEventToday(currentDateKey);
+    var currentDateObj = localStorage.getItem(currentDateKey);
+    if (currentDateObj != null) {
+        checkEventToday(currentDateObj);
     }
     return;
-});
+}
 function isThisChecked(e, a, i) {
-    if ($(e).is(":checked"))
+    if ($(e).is(":checked")) {
         a.push(i);
+    }
 }
 function emptyNumIfBlank(e) {
     let v = $(e).val();
@@ -127,13 +134,24 @@ function emptyNumIfBlank(e) {
 function emptyTagIfBlank(e) {
     if ($(e).val() == "")
         return [];
-    else
+    else {
         return $(e).val().split(",");
+    }
 }
 function closeModal() {
     $(".close").parent().parent().css("display", "none");
 }
 function checkEventRecurrence(recurEvents) {
+    console.log(recurEvents + "\n \n not implemented");
 }
-function checkEventToday(currentDateKey) {
+function checkEventToday(currentDateObj) {
+    let currentDateArr = JSON.parse(currentDateObj);
+    for (let i = 0; i < currentDateArr.length; i++) {
+        let startTime = new Date(currentDateArr[i].eventStart);
+        let eventMargin = (startTime.getHours() * 9) + (startTime.getMinutes() * 0.15);
+        let endTime = new Date(currentDateArr[i].eventEnd);
+        let eventHeight = ((endTime.getHours() * 9) + (endTime.getMinutes() * 0.15)) - eventMargin;
+        let createEvent = $("<div class='eventText' style='margin-top: " + eventMargin + "vh; height: " + eventHeight + "vh;'>" + currentDateArr[i].eventText + "</div>");
+        $(".eventOverlay").append(createEvent);
+    }
 }

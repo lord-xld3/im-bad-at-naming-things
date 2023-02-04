@@ -196,7 +196,7 @@ input[type=checkbox]{
   height: 216vh;
   z-index: 1;
   box-sizing: border-box;
-  background-color: #ac610c;
+  background-color: transparent;
   display: flex;
   flex: 1 1 0;
   flex-direction: row;
@@ -208,7 +208,7 @@ input[type=checkbox]{
   background-color:rgb(0, 116, 116);
   margin-top: 9vh;
   padding: 1vmax;
-  height: 36vh;
+  height: 9vh;
   width: 100%;
   justify-content: center;
   align-items: center;
