@@ -15,17 +15,8 @@ h1{
   font-size: 3vmax;
 }
 
-h2,p{
+h2{
   font-size: 1.5vmax;
-}
-
-textarea {
-  background: transparent;
-  border: none;
-  resize: none;
-  color: #000000;
-  border-left: 1px solid black;
-  padding: 10px;
 }
 
 .description {
@@ -216,19 +207,17 @@ input[type=checkbox]{
   background-color: #06aed5;
   display: flex;
   flex: 1 1 0;
-  flex-direction: column;
+  flex-direction: row;
 }
 
-.eventContainer{
-  position: relative;
-}
-
-.eventBox{
-  background-color: darkorange;
-  position: absolute;
-  top: 9vh;
-  height: 18vh;
+.eventText{
+  display: flex;
+  border: 1vh ridge rebeccapurple;
+  background-color:darkslategray;
+  margin-top: 9vh;
+  padding: 1vmax;
+  height: 36vh;
   width: 100%;
-  text-align: center;
   justify-content: center;
+  align-items: center;
 }
