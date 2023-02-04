@@ -102,6 +102,7 @@ $("#saveBtn").on("click",()=>{
 			localStorage.setItem(currentDateKey,(JSON.stringify(currentEventArr)))
 			closeModal()
 			initPage()
+			$("#modalSave").css("display","block")
 		}
 	}
 })
@@ -191,4 +192,13 @@ function checkEventToday(currentDateObj:any){
 		let createEvent = $("<div class='eventText' style='margin-top: " + eventMargin + "vh; height: " + eventHeight + "vh;'>" + currentDateArr[i].eventText + "</div>")
 		$(".eventOverlay").append(createEvent)
 	}
+}
+
+$("#prevDay").on("click",notYetImp)
+$("#nextDay").on("click",notYetImp)
+$("#editEvent").on("click",notYetImp)
+$("#timeEvent").on("click",notYetImp)
+
+function notYetImp(){
+	alert("Not yet implemented")
 }
