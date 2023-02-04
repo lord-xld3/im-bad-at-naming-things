@@ -208,14 +208,27 @@ input[type=checkbox]{
 
 .eventOverlay{
   position: absolute;
-  top: 0vh;
   left: 16.67%;
-  height: 36vh;
+  width: 83.33%;
+  height: 216vh;
   z-index: 1;
   box-sizing: border-box;
   background-color: #06aed5;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
 }
 
 .eventContainer{
   position: relative;
+}
+
+.eventBox{
+  background-color: darkorange;
+  position: absolute;
+  top: 9vh;
+  height: 18vh;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
 }
